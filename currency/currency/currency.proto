@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package= "github.com/rschio/currencyproj/currency/currency/proto;proto";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+enum Currency {
+	USD = 0;
+	BRL = 1;
+	EUR = 2;
+	BTC = 3;
+}
+
+// ExchangeRequest contains the information to
+// exchange a currency to another.
+message ExchangeRequest {
+	// Amount is the amount of money to convert.
+	double amount = 1;
+	// Rate is the proportion rate between the currencies.
+	double rate = 2;
+	// From is the currency to be converted from.
+	Currency from = 3;
+	// To is the currency to be converted to.
+	Currency to = 4;
+}
+
+// ExchangeResponse is the response of a exchange.
+message ExchangeResponse {
+	// ConvertedValue is the amount value after the exchange.
+	double convertedValue = 1 [json_name="valorConvertido"];
+	// CurrencySymbol is the symbol of the the currency after
+	// the exchange.
+	string currencySymbol = 2 [json_name="simboloMoeda"];
+}
+
+// Exchanger exchanges currencies.
+service Exchanger {
+	// Exchange exchanges a amount of money from one currency to another.
+	rpc Exchange(ExchangeRequest) returns (ExchangeResponse) {
+		option (google.api.http) = {
+			get: "/exchange/{amount}/{from}/{to}/{rate}"
+		};
+	}
+}

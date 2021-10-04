@@ -1,0 +1,15 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - '33000:3306'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: exchanges
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    volumes:
+      - './schema/mysql/data:/var/lib/mysql'
+      - './schema/initschema:/docker-entrypoint-initdb.d'

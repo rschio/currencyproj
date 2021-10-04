@@ -1,0 +1,7 @@
+version: 1
+packages:
+  - path: "currency/storage/mysql"
+    name: "mysql"
+    engine: "mysql"
+    schema: "schema/initschema/schema.sql"
+    queries: "schema/query.sql"

@@ -1,0 +1,144 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "currency.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Exchanger"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/exchange/{amount}/{from}/{to}/{rate}": {
+      "get": {
+        "summary": "Exchange exchanges a amount of money from one currency to another.",
+        "operationId": "Exchanger_Exchange",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protoExchangeResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "amount",
+            "description": "Amount is the amount of money to convert.",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "from",
+            "description": "From is the currency to be converted from.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "USD",
+              "BRL",
+              "EUR",
+              "BTC"
+            ]
+          },
+          {
+            "name": "to",
+            "description": "To is the currency to be converted to.",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "USD",
+              "BRL",
+              "EUR",
+              "BTC"
+            ]
+          },
+          {
+            "name": "rate",
+            "description": "Rate is the proportion rate between the currencies.",
+            "in": "path",
+            "required": true,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "Exchanger"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protoCurrency": {
+      "type": "string",
+      "enum": [
+        "USD",
+        "BRL",
+        "EUR",
+        "BTC"
+      ],
+      "default": "USD"
+    },
+    "protoExchangeResponse": {
+      "type": "object",
+      "properties": {
+        "valorConvertido": {
+          "type": "number",
+          "format": "double",
+          "description": "ConvertedValue is the amount value after the exchange."
+        },
+        "simboloMoeda": {
+          "type": "string",
+          "description": "CurrencySymbol is the symbol of the the currency after\nthe exchange."
+        }
+      },
+      "description": "ExchangeResponse is the response of a exchange."
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
